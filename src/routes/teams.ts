@@ -7,6 +7,6 @@ const router=Router();
 
 router.get('/', getTeams);
 router.post('/',[check('name','name is required').not().isEmpty(),check('color','Color is required').not().isEmpty(),validateFields],postTeam);
-router.put('/',putTeam);
+router.put('/:id',putTeam);
 
 export default router;

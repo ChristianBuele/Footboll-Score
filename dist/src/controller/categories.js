@@ -12,11 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCategories = void 0;
+exports.postCategorie = exports.getCategories = void 0;
 const category_1 = __importDefault(require("../models/category"));
 const getCategories = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     const categories = yield category_1.default.findAll();
     resp.json({ categories });
 });
 exports.getCategories = getCategories;
+const postCategorie = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name } = req.body;
+    const categorie = yield category_1.default.create({
+        name
+    });
+    resp.json(categorie);
+});
+exports.postCategorie = postCategorie;
 //# sourceMappingURL=categories.js.map

@@ -16,6 +16,9 @@ const Player = database_1.default.define('Players', {
     titular: {
         type: sequelize_1.DataTypes.BOOLEAN
     },
+    present: {
+        type: sequelize_1.DataTypes.BOOLEAN
+    },
     createdAt: {
         type: sequelize_1.DataTypes.DATE
     },

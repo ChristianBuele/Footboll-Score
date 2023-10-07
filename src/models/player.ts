@@ -12,6 +12,9 @@ const Player=db.define('Players',{
     titular:{
         type:DataTypes.BOOLEAN
     },
+    present:{
+        type:DataTypes.BOOLEAN
+    },
     createdAt:{
         type:DataTypes.DATE
     },

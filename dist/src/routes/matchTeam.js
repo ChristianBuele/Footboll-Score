@@ -6,5 +6,6 @@ const matchTeam_1 = require("../controller/matchTeam");
 const router = (0, express_1.Router)();
 router.get('/:id', matchData_1.getTeamMatch);
 router.get('', matchTeam_1.getTeamMatches);
+router.post('', matchTeam_1.postTeamMatch);
 exports.default = router;
 //# sourceMappingURL=matchTeam.js.map
