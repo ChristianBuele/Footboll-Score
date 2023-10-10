@@ -7,6 +7,7 @@ import matchTeamRoutes from '../routes/matchTeam';
 import teamRoutes from '../routes/teams';
 import playerRoutes from '../routes/players';
 import categoriesRoutes from '../routes/categories';
+import path from 'path';
 
 import db from '../db/database';
 import { socketController } from '../sockets/socket';
@@ -53,6 +54,7 @@ class CustomServer {
         this.app.use(cors());
         this.app.use(express.json());
         this.app.use(express.static('public'));
+        this.app.use(express.static('files'));
     }
     sockets() {
         this.io.on('connection', socketController);

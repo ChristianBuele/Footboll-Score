@@ -57,6 +57,7 @@ class CustomServer {
         this.app.use((0, cors_1.default)());
         this.app.use(express_1.default.json());
         this.app.use(express_1.default.static('public'));
+        this.app.use(express_1.default.static('files'));
     }
     sockets() {
         this.io.on('connection', socket_1.socketController);
