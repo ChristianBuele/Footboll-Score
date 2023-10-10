@@ -21,6 +21,7 @@ const matchTeam_1 = __importDefault(require("../routes/matchTeam"));
 const teams_1 = __importDefault(require("../routes/teams"));
 const players_1 = __importDefault(require("../routes/players"));
 const categories_1 = __importDefault(require("../routes/categories"));
+const path_1 = __importDefault(require("path"));
 const database_1 = __importDefault(require("../db/database"));
 const socket_1 = require("../sockets/socket");
 class CustomServer {
@@ -52,6 +53,9 @@ class CustomServer {
         this.app.use(this.apiPaths.teams, teams_1.default);
         this.app.use(this.apiPaths.players, players_1.default);
         this.app.use(this.apiPaths.categories, categories_1.default);
+        this.app.get('*', (req, resp) => {
+            resp.sendFile(path_1.default.resolve(__dirname, '../public/index.html'));
+        });
     }
     middlewares() {
         this.app.use((0, cors_1.default)());

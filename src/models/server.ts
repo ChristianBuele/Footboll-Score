@@ -48,6 +48,9 @@ class CustomServer {
         this.app.use(this.apiPaths.teams, teamRoutes);
         this.app.use(this.apiPaths.players, playerRoutes);
         this.app.use(this.apiPaths.categories, categoriesRoutes);
+        this.app.get('*',(req,resp)=>{
+            resp.sendFile(path.resolve(__dirname,'../public/index.html')) 
+        });
     }
 
     middlewares() {
