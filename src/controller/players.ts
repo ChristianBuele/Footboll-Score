@@ -1,6 +1,7 @@
 import { Request,Response } from "express";
 import Team from "../models/team";
 import Player from "../models/player";
+import MatchTeams from "../models/MatchTeams";
 
 export const getPlayersByTeamId =async (req: Request,resp:Response)=>{
     const {id}=req.params;
@@ -95,3 +96,39 @@ export const postLineupByTeam=async (req: Request,resp:Response)=>{
     socket.emit('MatchLineup'+body.matchId,{titulares,suplentes,team});
     resp.json({msg:"Alineacion mostrada existosamente",team});
 }
+
+export const getPlayersByMatch = async (req: Request, resp: Response) => {
+    try {
+      const { id } = req.params;
+      const match = await MatchTeams.findByPk(id);
+  
+      if (!match) {
+        return resp.status(404).json({ error: 'Partido no encontrado' });
+      }
+  
+      const teamPlayers = await Team.findAll({
+        include: [
+          {
+            model: Player,
+            required: true,
+            as:'items'
+          }
+        ],
+        where: {
+            id: [match.get('idTeamLocal'), match.get('idTeamVisit')]
+          },
+      });
+  
+      resp.json({ teamPlayers });
+    } catch (error) {
+        console.log(error)
+      resp.status(500).json({ error: 'Error interno del servidor' });
+    }
+  };
+
+  export const postMatchPlayer= async (req: Request, resp: Response) =>{
+    const {body}=req;
+    var socket=req.app.get('socketio');
+    socket.emit('MatchPlayer'+body.matchId,body.player);
+    resp.json({msg:"Jugador mostrado existosamente"});
+  }

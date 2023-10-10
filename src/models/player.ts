@@ -23,5 +23,4 @@ const Player=db.define('Players',{
     }
 });
 
-Player.belongsTo(Team, { foreignKey: 'idTeam' });
 export default Player;

@@ -1,5 +1,6 @@
 import {DataTypes} from 'sequelize';
 import db from '../db/database';
+import Player from './player';
 
 const Team=db.define('Teams',{
     id: {
@@ -14,5 +15,10 @@ const Team=db.define('Teams',{
         type:DataTypes.STRING
     }
 });
+
+Team.hasMany(Player,{
+    foreignKey:'idTeam',
+    as:'items'
+})
 
 export default Team;

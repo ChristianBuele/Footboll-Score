@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postLineupByTeam = exports.postChange = exports.postTarget = exports.putPlayer = exports.postPlayer = exports.getPlayersByTeamId = void 0;
+exports.postMatchPlayer = exports.getPlayersByMatch = exports.postLineupByTeam = exports.postChange = exports.postTarget = exports.putPlayer = exports.postPlayer = exports.getPlayersByTeamId = void 0;
 const team_1 = __importDefault(require("../models/team"));
 const player_1 = __importDefault(require("../models/player"));
+const MatchTeams_1 = __importDefault(require("../models/MatchTeams"));
 const getPlayersByTeamId = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const team = yield team_1.default.findByPk(id);
@@ -104,4 +105,38 @@ const postLineupByTeam = (req, resp) => __awaiter(void 0, void 0, void 0, functi
     resp.json({ msg: "Alineacion mostrada existosamente", team });
 });
 exports.postLineupByTeam = postLineupByTeam;
+const getPlayersByMatch = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const match = yield MatchTeams_1.default.findByPk(id);
+        if (!match) {
+            return resp.status(404).json({ error: 'Partido no encontrado' });
+        }
+        const teamPlayers = yield team_1.default.findAll({
+            include: [
+                {
+                    model: player_1.default,
+                    required: true,
+                    as: 'items'
+                }
+            ],
+            where: {
+                id: [match.get('idTeamLocal'), match.get('idTeamVisit')]
+            },
+        });
+        resp.json({ teamPlayers });
+    }
+    catch (error) {
+        console.log(error);
+        resp.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+exports.getPlayersByMatch = getPlayersByMatch;
+const postMatchPlayer = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
+    const { body } = req;
+    var socket = req.app.get('socketio');
+    socket.emit('MatchPlayer' + body.matchId, body.player);
+    resp.json({ msg: "Jugador mostrado existosamente" });
+});
+exports.postMatchPlayer = postMatchPlayer;
 //# sourceMappingURL=players.js.map

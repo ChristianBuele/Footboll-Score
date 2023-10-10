@@ -2,7 +2,11 @@ import { Request,Response } from "express";
 import Team from "../models/team";
 
 export const getTeams =async (req: Request,resp:Response)=>{
-    const teams=await Team.findAll();
+    const teams=await Team.findAll(
+        {
+            order:[['id','DESC']]
+        }
+    );
     resp.json({teams});
 }
 

@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const database_1 = __importDefault(require("../db/database"));
-const team_1 = __importDefault(require("./team"));
 const Player = database_1.default.define('Players', {
     number: {
         type: sequelize_1.DataTypes.INTEGER
@@ -26,6 +25,5 @@ const Player = database_1.default.define('Players', {
         type: sequelize_1.DataTypes.DATE
     }
 });
-Player.belongsTo(team_1.default, { foreignKey: 'idTeam' });
 exports.default = Player;
 //# sourceMappingURL=player.js.map

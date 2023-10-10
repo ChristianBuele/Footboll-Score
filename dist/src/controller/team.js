@@ -15,7 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.putTeam = exports.postTeam = exports.getTeams = void 0;
 const team_1 = __importDefault(require("../models/team"));
 const getTeams = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
-    const teams = yield team_1.default.findAll();
+    const teams = yield team_1.default.findAll({
+        order: [['id', 'DESC']]
+    });
     resp.json({ teams });
 });
 exports.getTeams = getTeams;
