@@ -21,6 +21,7 @@ const matchTeam_1 = __importDefault(require("../routes/matchTeam"));
 const teams_1 = __importDefault(require("../routes/teams"));
 const players_1 = __importDefault(require("../routes/players"));
 const categories_1 = __importDefault(require("../routes/categories"));
+const events_1 = __importDefault(require("../routes/events"));
 const path_1 = __importDefault(require("path"));
 const database_1 = __importDefault(require("../db/database"));
 const socket_1 = require("../sockets/socket");
@@ -31,7 +32,8 @@ class CustomServer {
             matchTeams: '/api/matchTeam',
             teams: '/api/teams',
             players: '/api/players',
-            categories: '/api/categories'
+            categories: '/api/categories',
+            events: '/api/events'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8000';
@@ -53,15 +55,16 @@ class CustomServer {
         this.app.use(this.apiPaths.teams, teams_1.default);
         this.app.use(this.apiPaths.players, players_1.default);
         this.app.use(this.apiPaths.categories, categories_1.default);
-        this.app.get('*', (req, resp) => {
-            resp.sendFile(path_1.default.resolve(__dirname, '../public/index.html'));
+        this.app.use(this.apiPaths.events, events_1.default);
+        this.app.use(express_1.default.static(path_1.default.join(__dirname, '../public')));
+        // Ruta para manejar todas las demás rutas del lado del cliente
+        this.app.get('*', (req, res) => {
+            res.sendFile(path_1.default.join(__dirname, '../public/index.html'));
         });
     }
     middlewares() {
         this.app.use((0, cors_1.default)());
         this.app.use(express_1.default.json());
-        this.app.use(express_1.default.static('public'));
-        this.app.use(express_1.default.static('files'));
     }
     sockets() {
         this.io.on('connection', socket_1.socketController);

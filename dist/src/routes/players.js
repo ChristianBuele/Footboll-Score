@@ -13,5 +13,6 @@ router.post("/lineup", players_1.postLineupByTeam);
 router.put("/:id", players_1.putPlayer);
 router.get("/match/:id", players_1.getPlayersByMatch);
 router.post("/matchPlayer", players_1.postMatchPlayer);
+router.delete("/:id", players_1.deletePlayer);
 exports.default = router;
 //# sourceMappingURL=players.js.map

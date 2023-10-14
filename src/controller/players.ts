@@ -132,3 +132,22 @@ export const getPlayersByMatch = async (req: Request, resp: Response) => {
     socket.emit('MatchPlayer'+body.matchId,body.player);
     resp.json({msg:"Jugador mostrado existosamente"});
   }
+
+  export const deletePlayer= async (req: Request, resp: Response) =>{
+    const {id}=req.params;
+    try{
+        const player=await Player.findByPk(id);
+        if (!player){
+            return resp.status(404).json({
+                msg:`Player with id ${id} not found`
+            });
+        }
+        await player.destroy();
+        resp.json(player);
+    }catch(error){
+        console.log(error);
+        resp.status(500).json({
+            msg:'Talk to the administrator'
+        });
+    }
+  }

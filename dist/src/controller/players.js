@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postMatchPlayer = exports.getPlayersByMatch = exports.postLineupByTeam = exports.postChange = exports.postTarget = exports.putPlayer = exports.postPlayer = exports.getPlayersByTeamId = void 0;
+exports.deletePlayer = exports.postMatchPlayer = exports.getPlayersByMatch = exports.postLineupByTeam = exports.postChange = exports.postTarget = exports.putPlayer = exports.postPlayer = exports.getPlayersByTeamId = void 0;
 const team_1 = __importDefault(require("../models/team"));
 const player_1 = __importDefault(require("../models/player"));
 const MatchTeams_1 = __importDefault(require("../models/MatchTeams"));
@@ -139,4 +139,24 @@ const postMatchPlayer = (req, resp) => __awaiter(void 0, void 0, void 0, functio
     resp.json({ msg: "Jugador mostrado existosamente" });
 });
 exports.postMatchPlayer = postMatchPlayer;
+const deletePlayer = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const player = yield player_1.default.findByPk(id);
+        if (!player) {
+            return resp.status(404).json({
+                msg: `Player with id ${id} not found`
+            });
+        }
+        yield player.destroy();
+        resp.json(player);
+    }
+    catch (error) {
+        console.log(error);
+        resp.status(500).json({
+            msg: 'Talk to the administrator'
+        });
+    }
+});
+exports.deletePlayer = deletePlayer;
 //# sourceMappingURL=players.js.map

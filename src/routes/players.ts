@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getPlayersByMatch, getPlayersByTeamId, postChange, postLineupByTeam, postMatchPlayer, postPlayer, postTarget, putPlayer } from "../controller/players";
+import { deletePlayer, getPlayersByMatch, getPlayersByTeamId, postChange, postLineupByTeam, postMatchPlayer, postPlayer, postTarget, putPlayer } from "../controller/players";
 import { validateFields } from "../middlewares/fields";
 import { check } from "express-validator";
 
@@ -13,4 +13,5 @@ router.post("/lineup",postLineupByTeam);
 router.put("/:id",putPlayer)
 router.get("/match/:id",getPlayersByMatch);
 router.post("/matchPlayer",postMatchPlayer);
+router.delete("/:id",deletePlayer)
 export default router;

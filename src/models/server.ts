@@ -7,6 +7,7 @@ import matchTeamRoutes from '../routes/matchTeam';
 import teamRoutes from '../routes/teams';
 import playerRoutes from '../routes/players';
 import categoriesRoutes from '../routes/categories';
+import eventsRoutes from '../routes/events';
 import path from 'path';
 
 import db from '../db/database';
@@ -23,7 +24,8 @@ class CustomServer {
         matchTeams: '/api/matchTeam',
         teams: '/api/teams',
         players: '/api/players',
-        categories: '/api/categories'
+        categories: '/api/categories',
+        events:'/api/events'
     };
 
     constructor() {
@@ -43,21 +45,25 @@ class CustomServer {
     }
 
     routes() {
+    
+
         this.app.use(this.apiPaths.matches, matchRoutes);
         this.app.use(this.apiPaths.matchTeams, matchTeamRoutes);
         this.app.use(this.apiPaths.teams, teamRoutes);
         this.app.use(this.apiPaths.players, playerRoutes);
         this.app.use(this.apiPaths.categories, categoriesRoutes);
-        this.app.get('*',(req,resp)=>{
-            resp.sendFile(path.resolve(__dirname,'../public/index.html')) 
+        this.app.use(this.apiPaths.events,eventsRoutes);
+        this.app.use(express.static(path.join(__dirname, '../public')));
+
+        // Ruta para manejar todas las demás rutas del lado del cliente
+        this.app.get('*', (req, res) => {
+          res.sendFile(path.join(__dirname, '../public/index.html'));
         });
     }
 
     middlewares() {
         this.app.use(cors());
         this.app.use(express.json());
-        this.app.use(express.static('public'));
-        this.app.use(express.static('files'));
     }
     sockets() {
         this.io.on('connection', socketController);
