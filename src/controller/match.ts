@@ -65,6 +65,17 @@ export const postMatchScore=(req: Request,resp:Response)=>{
         body
     })
 }
+
+export const postTimeEvents=(req: Request,resp:Response)=>{
+    const {body}=req;
+    console.log(body);
+    var socket=req.app.get('socketio');
+    socket.emit('TimeEvents'+body.id,body);
+    resp.json({
+        msg:"post time event successfully",
+        body
+    })
+}
 export const postPlayOrPauseTime=(req: Request,resp:Response)=>{
     const {body}=req;
     console.log(body);
