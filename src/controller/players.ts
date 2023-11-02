@@ -93,7 +93,7 @@ export const postLineupByTeam=async (req: Request,resp:Response)=>{
         }
     );
     const team=await Team.findByPk(body.idTeam);
-    socket.emit('MatchLineup'+body.matchId,{titulares,suplentes,team});
+    socket.emit('MatchLineup'+body.matchId,{titulares,suplentes,team,show:body.show});
     resp.json({msg:"Alineacion mostrada existosamente",team});
 }
 

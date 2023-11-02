@@ -101,7 +101,7 @@ const postLineupByTeam = (req, resp) => __awaiter(void 0, void 0, void 0, functi
         ]
     });
     const team = yield team_1.default.findByPk(body.idTeam);
-    socket.emit('MatchLineup' + body.matchId, { titulares, suplentes, team });
+    socket.emit('MatchLineup' + body.matchId, { titulares, suplentes, team, show: body.show });
     resp.json({ msg: "Alineacion mostrada existosamente", team });
 });
 exports.postLineupByTeam = postLineupByTeam;
