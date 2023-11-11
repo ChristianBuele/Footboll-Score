@@ -151,3 +151,11 @@ export const getPlayersByMatch = async (req: Request, resp: Response) => {
         });
     }
   }
+
+
+  export const postScore= async (req: Request, resp: Response) =>{
+    const {body}=req;
+    var socket=req.app.get('socketio');
+    socket.emit('PlayerScore'+body.id,body);
+    resp.json({msg:"Jugador mostrado existosamente"});
+  }
