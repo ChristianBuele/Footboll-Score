@@ -14,5 +14,6 @@ router.put("/:id", players_1.putPlayer);
 router.get("/match/:id", players_1.getPlayersByMatch);
 router.post("/matchPlayer", players_1.postMatchPlayer);
 router.delete("/:id", players_1.deletePlayer);
+router.post("/score", players_1.postScore);
 exports.default = router;
 //# sourceMappingURL=players.js.map

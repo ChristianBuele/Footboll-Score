@@ -67,9 +67,9 @@ const postMatchScore = (req, resp) => {
     const { body } = req;
     console.log(body);
     var socket = req.app.get('socketio');
-    socket.emit('MatchScore' + body.id, body);
+    socket.emit('MatchScoreTest' + body.id, body);
     resp.json({
-        msg: "post match score",
+        msg: "post match score test",
         body
     });
 };

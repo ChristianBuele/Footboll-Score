@@ -93,7 +93,7 @@ export const postLineupByTeam=async (req: Request,resp:Response)=>{
         }
     );
     const team=await Team.findByPk(body.idTeam);
-    socket.emit('MatchLineup'+body.matchId,{titulares,suplentes,team});
+    socket.emit('MatchLineup'+body.matchId,{titulares,suplentes,team,show:body.show});
     resp.json({msg:"Alineacion mostrada existosamente",team});
 }
 
@@ -150,4 +150,12 @@ export const getPlayersByMatch = async (req: Request, resp: Response) => {
             msg:'Talk to the administrator'
         });
     }
+  }
+
+
+  export const postScore= async (req: Request, resp: Response) =>{
+    const {body}=req;
+    var socket=req.app.get('socketio');
+    socket.emit('PlayerScore'+body.id,body);
+    resp.json({msg:"Jugador mostrado existosamente"});
   }

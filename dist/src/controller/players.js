@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePlayer = exports.postMatchPlayer = exports.getPlayersByMatch = exports.postLineupByTeam = exports.postChange = exports.postTarget = exports.putPlayer = exports.postPlayer = exports.getPlayersByTeamId = void 0;
+exports.postScore = exports.deletePlayer = exports.postMatchPlayer = exports.getPlayersByMatch = exports.postLineupByTeam = exports.postChange = exports.postTarget = exports.putPlayer = exports.postPlayer = exports.getPlayersByTeamId = void 0;
 const team_1 = __importDefault(require("../models/team"));
 const player_1 = __importDefault(require("../models/player"));
 const MatchTeams_1 = __importDefault(require("../models/MatchTeams"));
@@ -101,7 +101,7 @@ const postLineupByTeam = (req, resp) => __awaiter(void 0, void 0, void 0, functi
         ]
     });
     const team = yield team_1.default.findByPk(body.idTeam);
-    socket.emit('MatchLineup' + body.matchId, { titulares, suplentes, team });
+    socket.emit('MatchLineup' + body.matchId, { titulares, suplentes, team, show: body.show });
     resp.json({ msg: "Alineacion mostrada existosamente", team });
 });
 exports.postLineupByTeam = postLineupByTeam;
@@ -159,4 +159,11 @@ const deletePlayer = (req, resp) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.deletePlayer = deletePlayer;
+const postScore = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
+    const { body } = req;
+    var socket = req.app.get('socketio');
+    socket.emit('PlayerScore' + body.id, body);
+    resp.json({ msg: "Jugador mostrado existosamente" });
+});
+exports.postScore = postScore;
 //# sourceMappingURL=players.js.map
