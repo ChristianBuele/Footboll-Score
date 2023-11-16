@@ -11,5 +11,6 @@ router.post('/', [(0, express_validator_1.check)('name', 'name is required').not
 router.post('/score', match_1.postMatchScore);
 router.post('/time', match_1.postTimeEvents);
 router.put('/:id', match_1.putMatch);
+router.post('/penales', match_1.postPenal);
 exports.default = router;
 //# sourceMappingURL=match.js.map

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postMatchTime = exports.postPlayOrPauseTime = exports.postTimeEvents = exports.postMatchScore = exports.putMatch = exports.postMatch = exports.getMatch = exports.getMatchs = void 0;
+exports.postPenal = exports.postMatchTime = exports.postPlayOrPauseTime = exports.postTimeEvents = exports.postMatchScore = exports.putMatch = exports.postMatch = exports.getMatch = exports.getMatchs = void 0;
 const match_1 = __importDefault(require("../models/match"));
 const category_1 = __importDefault(require("../models/category"));
 const getMatchs = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
@@ -107,4 +107,15 @@ const postMatchTime = (req, resp) => {
     });
 };
 exports.postMatchTime = postMatchTime;
+const postPenal = (req, resp) => {
+    const { body } = req;
+    console.log(body);
+    var socket = req.app.get('socketio');
+    socket.emit('Penal' + body.id, body);
+    resp.json({
+        msg: "penal existoso",
+        body
+    });
+};
+exports.postPenal = postPenal;
 //# sourceMappingURL=match.js.map

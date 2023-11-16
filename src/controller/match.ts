@@ -103,7 +103,7 @@ export const postPenal=(req: Request,resp:Response)=>{
     var socket=req.app.get('socketio');
     socket.emit('Penal'+body.id,body);
     resp.json({
-        msg:"post match score",
+        msg:"penal existoso",
         body
     })
 }

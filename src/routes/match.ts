@@ -11,6 +11,6 @@ router.post('/',[check('name','name is required').not().isEmpty(),validateFields
 router.post('/score',postMatchScore);
 router.post('/time',postTimeEvents);
 router.put('/:id',  putMatch);
-router.post('/penal',postPenal);
+router.post('/penales',postPenal);
 
 export default router;
