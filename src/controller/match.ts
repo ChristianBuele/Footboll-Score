@@ -107,3 +107,14 @@ export const postPenal=(req: Request,resp:Response)=>{
         body
     })
 }
+
+export const postShowBoard=(req: Request,resp:Response)=>{
+    const {body}=req;
+    console.log(body);
+    var socket=req.app.get('socketio');
+    socket.emit('ShowBoard'+body.id,body);
+    resp.json({
+        msg:"showBoard score",
+        body
+    })
+}
