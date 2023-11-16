@@ -96,3 +96,14 @@ export const postMatchTime=(req: Request,resp:Response)=>{
         body
     })
 }
+
+export const postPenal=(req: Request,resp:Response)=>{
+    const {body}=req;
+    console.log(body);
+    var socket=req.app.get('socketio');
+    socket.emit('Penal'+body.id,body);
+    resp.json({
+        msg:"post match score",
+        body
+    })
+}

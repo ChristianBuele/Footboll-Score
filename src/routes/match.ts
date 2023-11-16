@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {check} from 'express-validator';
-import { getMatch, getMatchs, postMatch, postMatchScore, postTimeEvents, putMatch } from "../controller/match";
+import { getMatch, getMatchs, postMatch, postMatchScore, postPenal, postTimeEvents, putMatch } from "../controller/match";
 import { validateFields } from "../middlewares/fields";
 
 const router=Router();
@@ -11,5 +11,6 @@ router.post('/',[check('name','name is required').not().isEmpty(),validateFields
 router.post('/score',postMatchScore);
 router.post('/time',postTimeEvents);
 router.put('/:id',  putMatch);
+router.post('/penal',postPenal);
 
 export default router;
