@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postShowBoard = exports.postPenal = exports.postMatchTime = exports.postPlayOrPauseTime = exports.postTimeEvents = exports.postMatchScore = exports.putMatch = exports.postMatch = exports.getMatch = exports.getMatchs = void 0;
+exports.postStatistics = exports.postShowBoard = exports.postPenal = exports.postMatchTime = exports.postPlayOrPauseTime = exports.postTimeEvents = exports.postMatchScore = exports.putMatch = exports.postMatch = exports.getMatch = exports.getMatchs = void 0;
 const match_1 = __importDefault(require("../models/match"));
 const category_1 = __importDefault(require("../models/category"));
 const getMatchs = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
@@ -129,4 +129,15 @@ const postShowBoard = (req, resp) => {
     });
 };
 exports.postShowBoard = postShowBoard;
+const postStatistics = (req, resp) => {
+    const { body } = req;
+    console.log(body);
+    var socket = req.app.get('socketio');
+    socket.emit('Statistics' + body.id, body);
+    resp.json({
+        msg: "Data de estadisticas mostrada correctamente",
+        body
+    });
+};
+exports.postStatistics = postStatistics;
 //# sourceMappingURL=match.js.map

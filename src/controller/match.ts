@@ -118,3 +118,14 @@ export const postShowBoard=(req: Request,resp:Response)=>{
         body
     })
 }
+
+export const postStatistics=(req: Request,resp:Response)=>{
+    const {body}=req;
+    console.log(body);
+    var socket=req.app.get('socketio');
+    socket.emit('Statistics'+body.id,body);
+    resp.json({
+        msg:"Data de estadisticas mostrada correctamente",
+        body
+    })
+}
