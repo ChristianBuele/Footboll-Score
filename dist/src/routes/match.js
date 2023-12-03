@@ -14,5 +14,6 @@ router.put('/:id', match_1.putMatch);
 router.post('/penales', match_1.postPenal);
 router.post('/showDisableBoard', match_1.postShowBoard);
 router.post('/statistics/add', match_1.postStatistics);
+router.post('/statistics/marcador', match_1.postMarcadorStatistics);
 exports.default = router;
 //# sourceMappingURL=match.js.map

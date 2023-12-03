@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postStatistics = exports.postShowBoard = exports.postPenal = exports.postMatchTime = exports.postPlayOrPauseTime = exports.postTimeEvents = exports.postMatchScore = exports.putMatch = exports.postMatch = exports.getMatch = exports.getMatchs = void 0;
+exports.postMarcadorStatistics = exports.postStatistics = exports.postShowBoard = exports.postPenal = exports.postMatchTime = exports.postPlayOrPauseTime = exports.postTimeEvents = exports.postMatchScore = exports.putMatch = exports.postMatch = exports.getMatch = exports.getMatchs = void 0;
 const match_1 = __importDefault(require("../models/match"));
 const category_1 = __importDefault(require("../models/category"));
 const getMatchs = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
@@ -140,4 +140,14 @@ const postStatistics = (req, resp) => {
     });
 };
 exports.postStatistics = postStatistics;
+const postMarcadorStatistics = (req, resp) => {
+    const { body } = req;
+    var socket = req.app.get('socketio');
+    socket.emit('StatisticsMarcador' + body.id, body);
+    resp.json({
+        msg: "Data de marcador mostrada correctamente",
+        body
+    });
+};
+exports.postMarcadorStatistics = postMarcadorStatistics;
 //# sourceMappingURL=match.js.map

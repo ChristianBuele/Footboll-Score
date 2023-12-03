@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {check} from 'express-validator';
-import { getMatch, getMatchs, postShowBoard, postMatch, postMatchScore, postPenal, postTimeEvents, putMatch, postStatistics } from "../controller/match";
+import { getMatch, getMatchs, postShowBoard, postMatch, postMatchScore, postPenal, postTimeEvents, putMatch, postStatistics,  postMarcadorStatistics } from "../controller/match";
 import { validateFields } from "../middlewares/fields";
 
 const router=Router();
@@ -14,5 +14,6 @@ router.put('/:id',  putMatch);
 router.post('/penales',postPenal);
 router.post('/showDisableBoard',postShowBoard);
 router.post('/statistics/add',postStatistics);
+router.post('/statistics/marcador',postMarcadorStatistics)
 
 export default router;

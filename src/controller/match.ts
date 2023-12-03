@@ -129,3 +129,13 @@ export const postStatistics=(req: Request,resp:Response)=>{
         body
     })
 }
+
+export const postMarcadorStatistics=(req: Request,resp:Response)=>{
+    const {body}=req;
+    var socket=req.app.get('socketio');
+    socket.emit('StatisticsMarcador'+body.id,body);
+    resp.json({
+        msg:"Data de marcador mostrada correctamente",
+        body
+    })
+}
