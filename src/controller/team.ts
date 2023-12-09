@@ -1,5 +1,6 @@
 import { Request,Response } from "express";
 import Team from "../models/team";
+import { where } from "sequelize";
 
 export const getTeams =async (req: Request,resp:Response)=>{
     const teams=await Team.findAll(
@@ -9,6 +10,20 @@ export const getTeams =async (req: Request,resp:Response)=>{
     );
     resp.json({teams});
 }
+export const getTeamsByCategoryId =async (req: Request,resp:Response)=>{
+    const {id}=req.params;
+    const teams=await Team.findAll(
+        
+        {
+            order:[['id','DESC']],
+            where:{
+                idcategory:id
+            }
+        }
+    );
+    resp.json({teams});
+}
+
 
 export const postTeam =async (req: Request,resp:Response)=>{
     const {body}=req;

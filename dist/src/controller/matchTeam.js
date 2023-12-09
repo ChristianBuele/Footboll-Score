@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postTeamMatch = exports.getTeamMatches = void 0;
+exports.postTeamMatch = exports.getTeamMatchesByCategorie = exports.getTeamMatches = void 0;
 const MatchTeams_1 = __importDefault(require("../models/MatchTeams"));
 const team_1 = __importDefault(require("../models/team"));
 const match_1 = __importDefault(require("../models/match"));
@@ -34,6 +34,28 @@ const getTeamMatches = (req, resp) => __awaiter(void 0, void 0, void 0, function
     resp.json(data);
 });
 exports.getTeamMatches = getTeamMatches;
+const getTeamMatchesByCategorie = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const category = yield category_1.default.findByPk(id);
+    const teamMatches = yield MatchTeams_1.default.findAll({
+        order: [
+            ['id', 'DESC']
+        ]
+    });
+    let data = [];
+    for (const teamMatch of teamMatches) {
+        const match = yield match_1.default.findByPk(teamMatch.dataValues['idMatch']);
+        console.log('Se encuentra la categoria:', (match === null || match === void 0 ? void 0 : match.dataValues['idCategory']) + " y la busca es:", id);
+        if ((match === null || match === void 0 ? void 0 : match.dataValues['idCategory'].toString()) === id) {
+            console.log('Buscando la categoria');
+            const local = yield team_1.default.findByPk(teamMatch.dataValues['idTeamLocal']);
+            const visit = yield team_1.default.findByPk(teamMatch.dataValues['idTeamVisit']);
+            data.push({ teamMatch, local, visit, category });
+        }
+    }
+    resp.json(data);
+});
+exports.getTeamMatchesByCategorie = getTeamMatchesByCategorie;
 const postTeamMatch = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     const { date, location, minutes, categorie, teamLocal, teamVisit } = req.body;
     const match = yield match_1.default.create({

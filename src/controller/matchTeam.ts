@@ -21,6 +21,30 @@ export const getTeamMatches=async (req: Request,resp:Response) => {
   
     resp.json(data);
 }
+export const getTeamMatchesByCategorie=async (req: Request,resp:Response) => {
+    const {id}=req.params;
+    const category=await Category.findByPk(id);
+
+    const teamMatches=await MatchTeams.findAll({
+        order:[
+            ['id','DESC']
+        ]
+    });
+    let data:any[]=[];
+    for (const teamMatch of teamMatches){
+        const match=await Match.findByPk(teamMatch.dataValues['idMatch']);
+        console.log('Se encuentra la categoria:',match?.dataValues['idCategory']+" y la busca es:",id);
+        if(match?.dataValues['idCategory'].toString()===id){
+            console.log('Buscando la categoria')
+            const local=await Team.findByPk(teamMatch.dataValues['idTeamLocal']);
+            const visit=await Team.findByPk(teamMatch.dataValues['idTeamVisit']);
+            data.push({teamMatch,local,visit,category});
+        }
+        
+    }
+  
+    resp.json(data);
+}
 
 export const postTeamMatch=async (req: Request,resp:Response) => {
     const {date,location,minutes,categorie,teamLocal,teamVisit}=req.body;

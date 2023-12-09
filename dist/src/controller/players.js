@@ -16,6 +16,8 @@ exports.postScore = exports.deletePlayer = exports.postMatchPlayer = exports.get
 const team_1 = __importDefault(require("../models/team"));
 const player_1 = __importDefault(require("../models/player"));
 const MatchTeams_1 = __importDefault(require("../models/MatchTeams"));
+const playerTarget_1 = __importDefault(require("../models/playerTarget"));
+const scores_1 = __importDefault(require("../models/scores"));
 const getPlayersByTeamId = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const team = yield team_1.default.findByPk(id);
@@ -70,9 +72,24 @@ exports.putPlayer = putPlayer;
 const postTarget = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     var socket = req.app.get('socketio');
-    console.log(body);
+    const target = body.isYellow ? 1 : 2;
+    const targetData = {
+        idPlayer: body.player.id,
+        idTarget: target,
+        idMatch: body.matchId
+    };
+    console.log('Llega dato de una tarjeta amarilla:', body);
     socket.emit('MatchTarget' + body.matchId, body);
-    resp.json({ msg: "Tarjeta mostrada correctamente" });
+    try {
+        const playerTarget = yield playerTarget_1.default.create(targetData);
+        resp.json(playerTarget);
+    }
+    catch (error) {
+        resp.status(500).json({
+            msg: 'Verify data',
+            error: error
+        });
+    }
 });
 exports.postTarget = postTarget;
 const postChange = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
@@ -162,8 +179,23 @@ exports.deletePlayer = deletePlayer;
 const postScore = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     var socket = req.app.get('socketio');
+    console.log(body);
+    const scoreData = {
+        idTeam: body.team.id,
+        idPlayer: body.player.id,
+        idMatch: body.id
+    };
     socket.emit('PlayerScore' + body.id, body);
-    resp.json({ msg: "Jugador mostrado existosamente" });
+    try {
+        const score = yield scores_1.default.create(scoreData);
+        return resp.json(score);
+    }
+    catch (error) {
+        return resp.status(500).json({
+            msg: 'Error',
+            error: error
+        });
+    }
 });
 exports.postScore = postScore;
 //# sourceMappingURL=players.js.map

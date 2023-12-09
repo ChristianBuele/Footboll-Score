@@ -3,6 +3,11 @@ import db from '../db/database';
 import Team from './team';
 
 const Player=db.define('Players',{
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
     number:{
         type:DataTypes.INTEGER
     },

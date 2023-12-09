@@ -7,5 +7,6 @@ const router = (0, express_1.Router)();
 router.get('/:id', matchData_1.getTeamMatch);
 router.get('', matchTeam_1.getTeamMatches);
 router.post('', matchTeam_1.postTeamMatch);
+router.get('/category/:id', matchTeam_1.getTeamMatchesByCategorie);
 exports.default = router;
 //# sourceMappingURL=matchTeam.js.map

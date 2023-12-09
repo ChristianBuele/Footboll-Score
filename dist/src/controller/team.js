@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.putTeam = exports.postTeam = exports.getTeams = void 0;
+exports.putTeam = exports.postTeam = exports.getTeamsByCategoryId = exports.getTeams = void 0;
 const team_1 = __importDefault(require("../models/team"));
 const getTeams = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     const teams = yield team_1.default.findAll({
@@ -21,6 +21,17 @@ const getTeams = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     resp.json({ teams });
 });
 exports.getTeams = getTeams;
+const getTeamsByCategoryId = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const teams = yield team_1.default.findAll({
+        order: [['id', 'DESC']],
+        where: {
+            idcategory: id
+        }
+    });
+    resp.json({ teams });
+});
+exports.getTeamsByCategoryId = getTeamsByCategoryId;
 const postTeam = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     try {

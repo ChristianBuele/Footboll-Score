@@ -24,8 +24,18 @@ const Score=db.define('Scores',{
     }
 });
 
-Score.hasOne(Match);
-Score.hasOne(Player);
-Score.hasOne(Team);
+Score.hasMany(Match,{
+    foreignKey:'id'
+});
+
+
+Score.hasMany(Player,{
+    foreignKey:'id',
+    sourceKey:'idPlayer'
+})
+
+Score.hasMany(Team,{
+    foreignKey:'id'
+})
 
 export default Score;

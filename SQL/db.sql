@@ -3,7 +3,8 @@ CREATE TABLE "Teams" (
   "name" varchar,
   "color" varchar,
   "createdAt" timestamp,
-  "updatedAt" timestamp
+  "updatedAt" timestamp,
+  idCategory int
 );
 
 CREATE TABLE "Players" (
@@ -92,6 +93,9 @@ ALTER TABLE "Scores" ADD FOREIGN KEY ("idTeam") REFERENCES "Teams" ("id");
 ALTER TABLE "Scores" ADD FOREIGN KEY ("idPlayer") REFERENCES "Players" ("id");
 
 ALTER TABLE "Scores" ADD FOREIGN KEY ("idMatch") REFERENCES "Matches" ("id");
+
+alter table "Teams" add column idCategory int;
+alter table "Teams" add constraint fk_teams_categories foreign key (idCategory) references "Categories" (id);
 
 insert into "Teams" values (1,'Club Dacte','asdasd');
 insert into "Teams" values (2,'Club Portul','asdasd');

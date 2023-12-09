@@ -1,6 +1,13 @@
 import { Request,Response } from "express";
 import Match from "../models/match";
 import Category from "../models/category";
+import db from '../db/database';
+import MatchTeams from "../models/MatchTeams";
+import { Sequelize, where } from "sequelize";
+import Team from "../models/team";
+import Player from "../models/player";
+import PlayerTarget from "../models/playerTarget";
+import Score from "../models/scores";
 
 export const getMatchs =async (req: Request,resp:Response)=>{
     const matches=await Match.findAll(
@@ -130,10 +137,14 @@ export const postStatistics=(req: Request,resp:Response)=>{
     })
 }
 
-export const postMarcadorStatistics=(req: Request,resp:Response)=>{
+export const postMarcadorStatistics=async(req: Request,resp:Response)=>{
     const {body}=req;
     var socket=req.app.get('socketio');
-    socket.emit('StatisticsMarcador'+body.id,body);
+    console.log(body);
+
+    socket.emit('StatisticsMarcador'+body.id,{
+        body
+    });
     resp.json({
         msg:"Data de marcador mostrada correctamente",
         body

@@ -2,6 +2,8 @@ import { Request,Response } from "express";
 import Team from "../models/team";
 import Player from "../models/player";
 import MatchTeams from "../models/MatchTeams";
+import PlayerTarget from "../models/playerTarget";
+import Score from "../models/scores";
 
 export const getPlayersByTeamId =async (req: Request,resp:Response)=>{
     const {id}=req.params;
@@ -58,9 +60,23 @@ export const putPlayer =async (req: Request,resp:Response)=>{
 export const postTarget=async(req: Request,resp:Response)=>{
     const {body}=req;
     var socket=req.app.get('socketio');
-    console.log(body)
+    const target=body.isYellow?1:2;
+    const targetData={
+        idPlayer:body.player.id,
+        idTarget:target,
+        idMatch:body.matchId
+    }
+    console.log('Llega dato de una tarjeta amarilla:',body)
     socket.emit('MatchTarget'+body.matchId,body);
-    resp.json({msg:"Tarjeta mostrada correctamente"});
+    try {
+        const playerTarget=await PlayerTarget.create(targetData);
+        resp.json(playerTarget);
+    } catch (error) {
+        resp.status(500).json({
+            msg:'Verify data',
+            error:error
+        })
+    }
 }
 
 export const postChange =async (req: Request,resp:Response)=>{
@@ -156,6 +172,20 @@ export const getPlayersByMatch = async (req: Request, resp: Response) => {
   export const postScore= async (req: Request, resp: Response) =>{
     const {body}=req;
     var socket=req.app.get('socketio');
+    console.log(body);
+    const scoreData={
+        idTeam:body.team.id,
+        idPlayer:body.player.id,
+        idMatch:body.id
+    };
     socket.emit('PlayerScore'+body.id,body);
-    resp.json({msg:"Jugador mostrado existosamente"});
+    try {
+        const score=await Score.create(scoreData);
+        return resp.json(score);
+    } catch (error) {
+        return resp.status(500).json({
+            msg:'Error',
+            error:error
+        })
+    }
   }

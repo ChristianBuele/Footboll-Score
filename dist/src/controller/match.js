@@ -140,14 +140,17 @@ const postStatistics = (req, resp) => {
     });
 };
 exports.postStatistics = postStatistics;
-const postMarcadorStatistics = (req, resp) => {
+const postMarcadorStatistics = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     var socket = req.app.get('socketio');
-    socket.emit('StatisticsMarcador' + body.id, body);
+    console.log(body);
+    socket.emit('StatisticsMarcador' + body.id, {
+        body
+    });
     resp.json({
         msg: "Data de marcador mostrada correctamente",
         body
     });
-};
+});
 exports.postMarcadorStatistics = postMarcadorStatistics;
 //# sourceMappingURL=match.js.map

@@ -27,8 +27,15 @@ const Score = database_1.default.define('Scores', {
         type: sequelize_1.DataTypes.DATE
     }
 });
-Score.hasOne(match_1.default);
-Score.hasOne(player_1.default);
-Score.hasOne(team_1.default);
+Score.hasMany(match_1.default, {
+    foreignKey: 'id'
+});
+Score.hasMany(player_1.default, {
+    foreignKey: 'id',
+    sourceKey: 'idPlayer'
+});
+Score.hasMany(team_1.default, {
+    foreignKey: 'id'
+});
 exports.default = Score;
 //# sourceMappingURL=scores.js.map
