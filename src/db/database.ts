@@ -13,9 +13,9 @@ import {Sequelize} from 'sequelize';
 const db = new Sequelize(
     {
         database:'postgres',
-        username:'postgres',
+        username:'postgres.ridzhgpoiefbfjgqkhex',
         password:'Lucas30.03.199797S',
-        host:'db.ridzhgpoiefbfjgqkhex.supabase.co',
+        host:'aws-0-us-east-1.pooler.supabase.com',
         dialect:'postgres',
         logging:true
     }
