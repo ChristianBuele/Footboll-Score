@@ -8,6 +8,7 @@ import teamRoutes from '../routes/teams';
 import playerRoutes from '../routes/players';
 import categoriesRoutes from '../routes/categories';
 import eventsRoutes from '../routes/events';
+import boxesRoutes from '../routes/boxes';
 import path from 'path';
 
 import db from '../db/database';
@@ -25,7 +26,8 @@ class CustomServer {
         teams: '/api/teams',
         players: '/api/players',
         categories: '/api/categories',
-        events:'/api/events'
+        events:'/api/events',
+        boxes:'/api/boxes',
     };
 
     constructor() {
@@ -52,6 +54,7 @@ class CustomServer {
         this.app.use(this.apiPaths.teams, teamRoutes);
         this.app.use(this.apiPaths.players, playerRoutes);
         this.app.use(this.apiPaths.categories, categoriesRoutes);
+        this.app.use(this.apiPaths.boxes,boxesRoutes);
         this.app.use(this.apiPaths.events,eventsRoutes);
         this.app.use(express.static(path.join(__dirname, '../public')));
 

@@ -22,6 +22,7 @@ const teams_1 = __importDefault(require("../routes/teams"));
 const players_1 = __importDefault(require("../routes/players"));
 const categories_1 = __importDefault(require("../routes/categories"));
 const events_1 = __importDefault(require("../routes/events"));
+const boxes_1 = __importDefault(require("../routes/boxes"));
 const path_1 = __importDefault(require("path"));
 const database_1 = __importDefault(require("../db/database"));
 const socket_1 = require("../sockets/socket");
@@ -33,7 +34,8 @@ class CustomServer {
             teams: '/api/teams',
             players: '/api/players',
             categories: '/api/categories',
-            events: '/api/events'
+            events: '/api/events',
+            boxes: '/api/boxes',
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8000';
@@ -55,6 +57,7 @@ class CustomServer {
         this.app.use(this.apiPaths.teams, teams_1.default);
         this.app.use(this.apiPaths.players, players_1.default);
         this.app.use(this.apiPaths.categories, categories_1.default);
+        this.app.use(this.apiPaths.boxes, boxes_1.default);
         this.app.use(this.apiPaths.events, events_1.default);
         this.app.use(express_1.default.static(path_1.default.join(__dirname, '../public')));
         // Ruta para manejar todas las demás rutas del lado del cliente
