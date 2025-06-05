@@ -13,9 +13,10 @@ const sequelize_1 = require("sequelize");
 // );
 const db = new sequelize_1.Sequelize({
     database: 'postgres',
-    username: 'postgres',
+    username: 'postgres.oatgpmvccoxkfpjbfdum',
     password: 'Ethan30.03.1997LEG',
-    host: 'db.oatgpmvccoxkfpjbfdum.supabase.co',
+    host: 'aws-0-us-east-2.pooler.supabase.com',
+    port: 6543,
     dialect: 'postgres',
     logging: true
 });

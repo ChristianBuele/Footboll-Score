@@ -13,20 +13,13 @@ import { Sequelize } from 'sequelize';
 const db = new Sequelize(
     {
         database: 'postgres',
-        username: 'postgres',
+        username: 'postgres.oatgpmvccoxkfpjbfdum',
         password: 'Ethan30.03.1997LEG',
-        host: 'db.oatgpmvccoxkfpjbfdum.supabase.co',
+        host: 'aws-0-us-east-2.pooler.supabase.com',
+        port:6543,
         dialect: 'postgres',
-        logging: true,
-        dialectOptions: {
-            ssl: {
-                require: true,
-                rejectUnauthorized: false, // importante si el certificado SSL no está validado por una CA
-            },
-        }
+        logging: true
     }
 );
-
-
 
 export default db;
