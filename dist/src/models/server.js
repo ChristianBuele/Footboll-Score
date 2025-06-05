@@ -24,10 +24,13 @@ const categories_1 = __importDefault(require("../routes/categories"));
 const events_1 = __importDefault(require("../routes/events"));
 const boxes_1 = __importDefault(require("../routes/boxes"));
 const path_1 = __importDefault(require("path"));
+const ws_1 = require("ws");
 const database_1 = __importDefault(require("../db/database"));
 const socket_1 = require("../sockets/socket");
 class CustomServer {
     constructor() {
+        this.broadcaster = null;
+        this.listeners = new Set();
         this.apiPaths = {
             matches: '/api/matches',
             matchTeams: '/api/matchTeam',
@@ -40,6 +43,7 @@ class CustomServer {
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8000';
         this.server = (0, http_1.createServer)(this.app);
+        const wss = new ws_1.WebSocketServer({ server: this.server });
         this.io = new socket_io_1.Server(this.server, {
             cors: {
                 origin: '*'
@@ -50,6 +54,7 @@ class CustomServer {
         this.middlewares();
         this.routes();
         this.sockets();
+        this.startRadioServer(wss);
     }
     routes() {
         this.app.use(this.apiPaths.matches, match_1.default);
@@ -90,6 +95,49 @@ class CustomServer {
     }
     getSocketIo() {
         return this.io;
+    }
+    startRadioServer(wss) {
+        wss.on('connection', (ws) => {
+            ws.on('message', (message) => {
+                try {
+                    const parsed = JSON.parse(message.toString());
+                    switch (parsed.type) {
+                        case 'broadcaster':
+                            this.broadcaster = ws;
+                            console.log('🎙️ Emisor conectado');
+                            break;
+                        case 'listener':
+                            this.listeners.add(ws);
+                            console.log('👂 Oyente conectado');
+                            break;
+                        case 'audio':
+                            // reenviar audio a todos los oyentes
+                            const payload = JSON.stringify({ type: 'audio', audio: parsed.audio });
+                            this.listeners.forEach((client) => {
+                                if (client.readyState === ws_1.WebSocket.OPEN) {
+                                    client.send(payload);
+                                }
+                            });
+                            break;
+                        default:
+                            console.warn('⚠️ Tipo desconocido:', parsed.type);
+                    }
+                }
+                catch (err) {
+                    console.error('❌ Error al procesar mensaje:', err);
+                }
+            });
+            ws.on('close', () => {
+                this.listeners.delete(ws);
+                if (ws === this.broadcaster) {
+                    this.broadcaster = null;
+                    console.log('🔌 Emisor desconectado');
+                }
+                else {
+                    console.log('🔌 Oyente desconectado');
+                }
+            });
+        });
     }
 }
 exports.default = CustomServer;
