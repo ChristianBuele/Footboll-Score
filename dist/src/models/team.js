@@ -21,6 +21,9 @@ const Team = database_1.default.define('Teams', {
     },
     idcategory: {
         type: sequelize_1.DataTypes.INTEGER
+    },
+    image_path: {
+        type: sequelize_1.DataTypes.STRING
     }
 });
 Team.hasMany(player_1.default, {
