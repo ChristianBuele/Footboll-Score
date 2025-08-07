@@ -17,6 +17,9 @@ const Team=db.define('Teams',{
     },
     idcategory:{
         type:DataTypes.INTEGER
+    },
+    image_path:{
+        type:DataTypes.STRING
     }
 });
 
