@@ -10,7 +10,6 @@ router.post('/',[
     check('name','name is required').not().isEmpty(),
     check('color','Color is required').not().isEmpty(),
     check('idcategory','Category ID is required').not().isEmpty(),
-    check('image_path','Image path is required').not().isEmpty(),
     validateFields
 ],postTeam);
 router.put('/:id',putTeam);
